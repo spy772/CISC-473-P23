@@ -5,8 +5,16 @@
 1. Clone the repo
 2. Activate the virtual environment.
 
+### Windows: (run in Command Prompt)
+
 ```
 .venv\Scripts\activate.bat
+```
+
+### Mac: (run in Terminal)
+
+```
+source .venv\bin\activate
 ```
 
 3. Install the requirements:
