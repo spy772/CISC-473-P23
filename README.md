@@ -1,2 +1,24 @@
 # CISC-473-P23
-Repository for capstone project in Queen's University, CISC 473 Deep Learning. P23 Predictive Uncertainty Quantification and Calibration with Generalized Conformal Comparison Methods.
+
+## Setup & Installation
+
+1. Clone the repo
+2. Activate the virtual environment.
+
+```
+.venv\Scripts\activate.bat
+```
+
+3. Install the requirements:
+
+```
+pip install
+```
+
+4. Run your program of choice.
+
+## The Team
+
+- Edward Tanurkov
+- Elliott Vince
+- Shravan Agnihotri
