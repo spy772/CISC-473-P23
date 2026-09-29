@@ -1,0 +1,25 @@
+{
+  "model": "cifar10_resnet20 (torch.hub, chenyaofo/pytorch-cifar-models)",
+  "seeds": [
+    0
+  ],
+  "epochs": 40,
+  "split": {
+    "train": 36000,
+    "test": 12000,
+    "calibration": 12000
+  },
+  "baseline_metrics": {
+    "test_accuracy": 0.9028333333333334,
+    "nll": 0.30260708928108215,
+    "ece": 0.031197652767101923
+  },
+  "conformal_metrics": {
+    "method": "split conformal (APS)",
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "qhat": 0.9999951124191284,
+    "empirical_coverage": 1.0,
+    "avg_set_size": 6.308833333333333
+  }
+}

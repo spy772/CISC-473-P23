@@ -221,3 +221,7 @@ __marimo__/
 # Ignore JetBrains/IntelliJ IDEA project-specific settings
 .idea/
 *.iml
+
+# Ignore huge data files
+data/cifar-10-python.tar.gz
+data_svhn
