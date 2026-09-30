@@ -1,0 +1,28 @@
+{
+  "model": "MC Dropout ResNet-20 (cifar10_resnet20 backbone + dropout before fc)",
+  "reference": "Gal & Ghahramani 2016, https://arxiv.org/abs/1506.02142",
+  "dropout_p": 0.5,
+  "t_mc": 50,
+  "seeds": [
+    0
+  ],
+  "epochs": 40,
+  "split": {
+    "train": 36000,
+    "test": 12000,
+    "calibration": 12000
+  },
+  "baseline_metrics": {
+    "test_accuracy": 0.9015833333333333,
+    "nll": 0.3020603060722351,
+    "ece": 0.01511188430214924
+  },
+  "conformal_metrics": {
+    "method": "split conformal (APS)",
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "qhat": 0.9993456602096558,
+    "empirical_coverage": 0.9999166666666667,
+    "avg_set_size": 5.819333333333334
+  }
+}
