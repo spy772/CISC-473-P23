@@ -225,3 +225,6 @@ __marimo__/
 # Ignore huge data files
 data/cifar-10-python.tar.gz
 data_svhn
+# Deep ensemble checkpoints
+models/deep_ensembles/*.pt
+models/deep_ensembles/*.tmp
