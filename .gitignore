@@ -225,3 +225,4 @@ __marimo__/
 # Ignore huge data files
 data/cifar-10-python.tar.gz
 data_svhn
+data/models/output/sngp
