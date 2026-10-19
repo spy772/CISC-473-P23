@@ -1,0 +1,39 @@
+{
+  "model": "Last-layer Laplace ResNet-20 (cifar10_resnet20 MAP + laplace-torch)",
+  "reference": "Daxberger et al. 2021, https://arxiv.org/abs/2106.14806",
+  "laplace": {
+    "subset_of_weights": "last_layer",
+    "hessian_structure": "full",
+    "prior_precision_method": "marglik",
+    "prior_precision": 3.1373870372772217,
+    "pred_type": "glm",
+    "link_approx": "probit"
+  },
+  "seeds": [
+    0
+  ],
+  "epochs": 40,
+  "split": {
+    "train": 36000,
+    "test": 12000,
+    "calibration": 12000
+  },
+  "map_metrics": {
+    "test_accuracy": 0.90675,
+    "nll": 0.28806445002555847,
+    "ece": 0.028516506986071673
+  },
+  "baseline_metrics": {
+    "test_accuracy": 0.9065833333333333,
+    "nll": 0.27530810236930847,
+    "ece": 0.014538627417137202
+  },
+  "conformal_metrics": {
+    "method": "split conformal (APS)",
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "qhat": 0.9997949004173279,
+    "empirical_coverage": 0.9999166666666667,
+    "avg_set_size": 5.53775
+  }
+}

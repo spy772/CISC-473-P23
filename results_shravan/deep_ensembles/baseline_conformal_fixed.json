@@ -1,0 +1,25 @@
+{
+  "original_baseline_metrics": {
+    "test_accuracy": 0.9028333333333334,
+    "nll": 0.30260708928108215,
+    "ece": 0.031197652767101923
+  },
+  "original_conformal_metrics_shared_code": {
+    "method": "split conformal (APS)",
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "qhat": 0.9999951124191284,
+    "empirical_coverage": 1.0,
+    "avg_set_size": 6.308833333333333
+  },
+  "corrected_conformal_metrics": {
+    "method": "split conformal (randomized APS, consistent set rule)",
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "single_split_coverage": 0.8959166666666667,
+    "single_split_avg_set_size": 1.1675,
+    "mean_coverage_over_100_resplits": 0.8999741666666669,
+    "avg_set_size_over_100_resplits": 1.1879191666666669
+  },
+  "note": "Counterpart of baseline_resnet20_results.json; the original file is unchanged."
+}

@@ -226,3 +226,6 @@ __marimo__/
 data/cifar-10-python.tar.gz
 data_svhn
 models/output/sngp
+# Deep ensemble checkpoints
+models/deep_ensembles/*.pt
+models/deep_ensembles/*.tmp

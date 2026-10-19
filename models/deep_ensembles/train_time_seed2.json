@@ -1,0 +1,6 @@
+{
+  "seed": 2,
+  "epochs": 40,
+  "wall_clock_sec": 5920.263904094696,
+  "device": "cpu"
+}
