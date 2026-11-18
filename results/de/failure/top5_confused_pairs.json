@@ -1,0 +1,31 @@
+{
+ "ensemble": "A",
+ "note": "idx = position in the 12k test split (SVHN: in the 26032 test set); global_idx = index into the pooled 60k CIFAR-10 array",
+ "top5_confused_pairs": [
+  {
+   "count": 109,
+   "true": "cat",
+   "pred": "dog"
+  },
+  {
+   "count": 80,
+   "true": "dog",
+   "pred": "cat"
+  },
+  {
+   "count": 27,
+   "true": "horse",
+   "pred": "cat"
+  },
+  {
+   "count": 27,
+   "true": "deer",
+   "pred": "cat"
+  },
+  {
+   "count": 26,
+   "true": "bird",
+   "pred": "airplane"
+  }
+ ]
+}

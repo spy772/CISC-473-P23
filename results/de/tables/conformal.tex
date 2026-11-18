@@ -1,0 +1,43 @@
+\begin{table}
+\centering
+\caption{Conformal prediction, alpha=0.1, mean over 100 random 12k/12k re-splits of pooled cal+test}
+\label{tab:de_conformal}
+\begin{tabular}{lrrrrrrr}
+\toprule
+           method &                       stat & Single (mean $\pm$ std, 5 members) & DE M=5 (mean $\pm$ std, 1 ens) &  Ens A & Ens B & Ens C & Ens A: std over splits \\
+\midrule
+              aps &                   coverage &                0.9006 $\pm$ 0.0001 &               0.9003 (n=1) & 0.9003 &  TODO &  TODO &                 0.0042 \\
+              aps &               avg set size &                5.4396 $\pm$ 0.0746 &               5.3259 (n=1) & 5.3259 &  TODO &  TODO &                 0.0561 \\
+              aps &            median set size &                6.0280 $\pm$ 0.0626 &               6.0000 (n=1) & 6.0000 &  TODO &  TODO &                 0.0000 \\
+              aps &          per-class cov min &                0.8013 $\pm$ 0.0209 &               0.7799 (n=1) & 0.7799 &  TODO &  TODO &                 0.0105 \\
+              aps &          per-class cov max &                0.9826 $\pm$ 0.0057 &               0.9883 (n=1) & 0.9883 &  TODO &  TODO &                 0.0022 \\
+              aps &   set size (correct preds) &                5.1130 $\pm$ 0.0882 &               5.0772 (n=1) & 5.0772 &  TODO &  TODO &                 0.0569 \\
+              aps & set size (incorrect preds) &                8.4821 $\pm$ 0.0474 &               8.4374 (n=1) & 8.4374 &  TODO &  TODO &                 0.0349 \\
+              aps &            frac empty sets &                0.0989 $\pm$ 0.0002 &               0.0994 (n=1) & 0.0994 &  TODO &  TODO &                 0.0042 \\
+         aps\_rand &                   coverage &                0.9002 $\pm$ 0.0001 &               0.8998 (n=1) & 0.8998 &  TODO &  TODO &                 0.0037 \\
+         aps\_rand &               avg set size &                1.1901 $\pm$ 0.0089 &               1.1974 (n=1) & 1.1974 &  TODO &  TODO &                 0.0084 \\
+         aps\_rand &            median set size &                1.0000 $\pm$ 0.0000 &               1.0000 (n=1) & 1.0000 &  TODO &  TODO &                 0.0000 \\
+         aps\_rand &          per-class cov min &                0.8735 $\pm$ 0.0014 &               0.8848 (n=1) & 0.8848 &  TODO &  TODO &                 0.0066 \\
+         aps\_rand &          per-class cov max &                0.9213 $\pm$ 0.0012 &               0.9160 (n=1) & 0.9160 &  TODO &  TODO &                 0.0067 \\
+         aps\_rand &   set size (correct preds) &                1.0854 $\pm$ 0.0037 &               1.1092 (n=1) & 1.1092 &  TODO &  TODO &                 0.0077 \\
+         aps\_rand & set size (incorrect preds) &                2.1653 $\pm$ 0.0241 &               2.3019 (n=1) & 2.3019 &  TODO &  TODO &                 0.0329 \\
+         aps\_rand &            frac empty sets &                0.0560 $\pm$ 0.0015 &               0.0729 (n=1) & 0.0729 &  TODO &  TODO &                 0.0030 \\
+             raps &                   coverage &                0.9003 $\pm$ 0.0001 &               0.8998 (n=1) & 0.8998 &  TODO &  TODO &                 0.0037 \\
+             raps &               avg set size &                1.1895 $\pm$ 0.0089 &               1.1972 (n=1) & 1.1972 &  TODO &  TODO &                 0.0084 \\
+             raps &            median set size &                1.0000 $\pm$ 0.0000 &               1.0000 (n=1) & 1.0000 &  TODO &  TODO &                 0.0000 \\
+             raps &          per-class cov min &                0.8735 $\pm$ 0.0015 &               0.8848 (n=1) & 0.8848 &  TODO &  TODO &                 0.0066 \\
+             raps &          per-class cov max &                0.9213 $\pm$ 0.0012 &               0.9160 (n=1) & 0.9160 &  TODO &  TODO &                 0.0067 \\
+             raps &   set size (correct preds) &                1.0852 $\pm$ 0.0037 &               1.1091 (n=1) & 1.1091 &  TODO &  TODO &                 0.0077 \\
+             raps & set size (incorrect preds) &                2.1612 $\pm$ 0.0235 &               2.2996 (n=1) & 2.2996 &  TODO &  TODO &                 0.0324 \\
+             raps &            frac empty sets &                0.0559 $\pm$ 0.0015 &               0.0729 (n=1) & 0.0729 &  TODO &  TODO &                 0.0031 \\
+mondrian\_aps\_rand &                   coverage &                0.9005 $\pm$ 0.0000 &               0.9003 (n=1) & 0.9003 &  TODO &  TODO &                 0.0036 \\
+mondrian\_aps\_rand &               avg set size &                1.2031 $\pm$ 0.0096 &               1.2008 (n=1) & 1.2008 &  TODO &  TODO &                 0.0086 \\
+mondrian\_aps\_rand &            median set size &                1.0000 $\pm$ 0.0000 &               1.0000 (n=1) & 1.0000 &  TODO &  TODO &                 0.0000 \\
+mondrian\_aps\_rand &          per-class cov min &                0.8814 $\pm$ 0.0006 &               0.8814 (n=1) & 0.8814 &  TODO &  TODO &                 0.0071 \\
+mondrian\_aps\_rand &          per-class cov max &                0.9193 $\pm$ 0.0002 &               0.9195 (n=1) & 0.9195 &  TODO &  TODO &                 0.0064 \\
+mondrian\_aps\_rand &   set size (correct preds) &                1.0942 $\pm$ 0.0039 &               1.1119 (n=1) & 1.1119 &  TODO &  TODO &                 0.0078 \\
+mondrian\_aps\_rand & set size (incorrect preds) &                2.2176 $\pm$ 0.0261 &               2.3126 (n=1) & 2.3126 &  TODO &  TODO &                 0.0353 \\
+mondrian\_aps\_rand &            frac empty sets &                0.0577 $\pm$ 0.0014 &               0.0727 (n=1) & 0.0727 &  TODO &  TODO &                 0.0031 \\
+\bottomrule
+\end{tabular}
+\end{table}
