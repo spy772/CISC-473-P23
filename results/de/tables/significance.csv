@@ -3,7 +3,7 @@ A,Δ accuracy,0.0238,"[0.0215, 0.0262]",yes
 A,Δ ECE,-0.0138,"[-0.0196, -0.0071]",yes
 A,Δ NLL,-0.0736,"[-0.0777, -0.0696]",yes
 A,Δ Brier,-0.0316,"[-0.0328, -0.0304]",yes
-A,Δ RAPS set size,-0.0012,"[-0.0064, 0.0039]",no
+A,Δ RAPS set size,-0.0033,"[-0.0085, 0.0019]",no
 A,Δ OOD AUROC (entropy),0.0218,"[0.0206, 0.0230]",yes
 paired t-test,Δ accuracy,"TODO (need >=3 ensembles, have 1)",TODO,TODO
 paired t-test,Δ ECE,"TODO (need >=3 ensembles, have 1)",TODO,TODO

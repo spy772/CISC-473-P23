@@ -22,7 +22,7 @@
 - alpha=0.1; qhat = ceil((n+1)(1-alpha))/n empirical quantile of the calibration true-class scores.
 - Every method uses the same function for calibration and prediction: y in set iff score(x,y) <= qhat. Sets may be empty (fraction reported, no top-1 forced in). This is the corrected layer from `models/deep_ensembles/CONFORMAL_AUDIT.md`; the notebook's original inclusive-crossing APS (coverage 1.0, size 6.3) is NOT used.
 - Non-randomized APS: score = inclusive cumulative mass up to y's rank. Randomized APS: mass strictly above y + U*p_y. RAPS: randomized APS + lam*max(0, rank - k_reg), k_reg=5, lam=0.01 (rank 1-indexed, no tuning of k_reg/lam). Mondrian randomized APS: one qhat per true class.
-- Randomness: U ~ Uniform(0,1), one per image (shared across all classes of that image); seed = re-split index.
+- Randomness: U ~ Uniform(0,1), one per image (shared across all classes of that image); seed = re-split index. Test U continues the same RandomState stream after the n_cal calibration draws, exactly as in `conformal_fixed.py` / `pipeline/evaluate.py` (verified identical coverage/size for seed 0 and M=5, single split and 100 re-splits).
 - 100 re-splits: pool cal+test (24k), `RandomState(r).permutation`, first 12k = cal, last 12k = test, r = 0..99. All numbers in the conformal table are averages over the 100 splits (per member/ensemble), then mean ± std over members/ensembles. The "std over splits" column is within-ensemble split variability.
 - Per-class coverage range = min and max over the 10 classes, averaged over splits.
 - "RAPS set size" used for OOD, ablation and significance = RAPS (k_reg=5, lam=0.01) with qhat from the original 12k cal split (seed 0 for cal randomization, a fixed second seed for test/SVHN). Set size as an OOD score has many ties (handled by sklearn / the weighted AUROC).
@@ -49,4 +49,4 @@
 ## Other
 - Seeds fixed and logged: split 0; training seed = member id; re-splits 0-99; ablation `RandomState(0)`; bootstrap `RandomState(0)`.
 - The probability dumps are committed (~11 MB for seeds 0-4) so `python src/de_eval.py` works without checkpoints.
-- Python 3.8 environment; `requirements-de.txt` is a separate pin file (the shared `requirements.txt` is UTF-16 with numpy 2.x pins from other environments), so the shared file was not edited.
+- Environment: Python 3.13, shared `requirements.txt` (numpy 2.5.3, pandas 3.1.1, scikit-learn 1.9.1, matplotlib 3.11.2 added for the DE pipeline). Tables were identical (CSV) between this env and the Python 3.8 env used earlier.

@@ -36,7 +36,7 @@ pip install
 Everything is computed from dumped softmax probabilities in `results/raw/` (no model is run for any metric).
 
 ```
-pip install -r requirements-de.txt
+pip install -r requirements.txt   # needs Python >=3.12 (tested on 3.13)
 python src/dump_member_probs.py     # optional: re-dump probs from checkpoints (needs .pt files + internet for SVHN test)
 python src/de_eval.py               # all tables, figures, failure data, RESULTS.md, MISSING.md (~5 min on CPU)
 ```

@@ -57,7 +57,9 @@ class ConformalSets:
         return all_scores(order, ranked, before, rng.rand(len(probs)), self.method, self.k_reg, self.lam)
 
     def fit(self, cal_probs, cal_labels):
-        s = self._scores(cal_probs, np.random.RandomState(self.seed))
+        rng = np.random.RandomState(self.seed)
+        s = self._scores(cal_probs, rng)
+        self._rng_state = rng.get_state()   # test U continues this stream (same draw order as conformal_fixed.py)
         ts = s[np.arange(len(cal_labels)), cal_labels]
         if self.method == "mondrian_aps_rand":
             K = cal_probs.shape[1]
@@ -67,7 +69,9 @@ class ConformalSets:
         return self
 
     def predict_sets(self, probs, seed=None):
-        rng = np.random.RandomState(self.seed + 10 ** 6 if seed is None else seed)
+        rng = np.random.RandomState(0 if seed is None else seed)
+        if seed is None:
+            rng.set_state(self._rng_state)
         s = self._scores(probs, rng)
         return s <= (self.qhat[None, :] if self.method == "mondrian_aps_rand" else self.qhat)
 
@@ -87,8 +91,9 @@ def set_stats(member, labels, probs):
 
 def resplit_eval(cal_probs, cal_labels, test_probs, test_labels, n_splits=100, alpha=0.1,
                  k_reg=5, lam=0.01, methods=METHODS):
-    """Pool cal+test (24k), re-split 12k/12k with seeds 0..n_splits-1 (the seed also drives the
-    randomisation U). Returns {method: {stat: array(n_splits)}}."""
+    """Pool cal+test (24k), re-split 12k/12k with seeds 0..n_splits-1. Split r: permutation from
+    RandomState(r); U from a separate RandomState(r): first n_cal draws for cal, the next for test (identical
+    to conformal_fixed.split_conformal(seed=r) and pipeline/evaluate.py). Returns {method: {stat: array(n_splits)}}."""
     P = np.concatenate([cal_probs, test_probs]).astype(np.float64)
     Y = np.concatenate([cal_labels, test_labels])
     n, n_cal = len(Y), len(cal_labels)
@@ -100,7 +105,10 @@ def resplit_eval(cal_probs, cal_labels, test_probs, test_labels, n_splits=100, a
         rng = np.random.RandomState(r)
         perm = rng.permutation(n)
         ci, ti = perm[:n_cal], perm[n_cal:]
-        u = rng.rand(n)
+        ru = np.random.RandomState(r)
+        u = np.empty(n)
+        u[ci] = ru.rand(len(ci))
+        u[ti] = ru.rand(len(ti))
         for m in methods:
             S = all_scores(order, ranked, before, u, m, k_reg, lam)
             ts = S[np.arange(n), Y]
