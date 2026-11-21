@@ -1,52 +1,38 @@
 # Implementation notes (Deep Ensembles)
 
-## Data / split / members
-- CIFAR-10 train+test pooled (60k), class-stratified 60/20/20, split seed 0 (`models/deep_ensembles/common.py`, same code as the baseline notebook) -> train 36000 / test 12000 / cal 12000. Indices in `results/raw/labels/split_indices.json`.
-- Members differ only by seed (init, shuffle, aug). Seed 0 = baseline checkpoint (`models/baseline/baseline_resnet20_seed0.pt`), seeds 1-4 trained on the laptop CPU (`models/deep_ensembles/train_ensemble.py`), seeds 5-14 on GPU (`train_jobs/de_train.ipynb`, same script).
-- Ensemble = arithmetic mean of member softmaxes. Ensembles: A = 0-4, B = 5-9, C = 10-14. M=10 ablation pool = seeds 0-9.
-- OOD set: SVHN **official test split** (26,032 images, `test_32x32.mat` from ufldl.stanford.edu, git-ignored in `data_svhn_test/`), CIFAR-10 mean/std normalization, no augmentation. This replaces the midterm's 12,000-image subsample of SVHN *train* chunks, so OOD numbers are not comparable to the midterm table.
-- Dumped probs are float32; the midterm probs for seeds 0-4 are bit-identical to the re-dumped ones (checked).
+## What is main's and what is an add-on
+- **Main's code, used unchanged:** `pipeline.data` (split + loaders), `pipeline.models.DeepEnsemble`, `pipeline.train.train_with_noise`, `pipeline.evaluate.evaluate_conformal` / `conformal_metrics` / `compare` / `summarize`, `common.compute_ece/nll/brier`, `conformal_fixed.py`.
+- **Add-ons (DE-only):** `src/dump_member_probs.py` (per-member and SVHN-test probabilities), `src/de_conformal.py` (non-randomized APS, RAPS), `src/de_eval.py` (OOD, selective prediction, ablation, significance, failure analysis, MI, adaptive ECE, cost, tables/figures), `src/verify_midterm_equivalence.py`.
 
-## Sanity check
-- Seed 0: Acc 0.9028 / NLL 0.3026 / ECE 0.0312 reproduced. Ensemble A: NLL 0.2232 / ECE 0.0164 reproduced; accuracy is 11127/12000 = 0.92725 exactly, which the midterm printed as 0.9273 (round-half-up); Python `round` gives 0.9272. The check in `de_eval.py` therefore uses a +-0.00005 tolerance.
+## Data, training, seeds
+- CIFAR-10 pooled 60k, class-stratified 60/20/20, split seed 0 -> train 36000 / test 12000 / cal 12000 (`common.get_splits`, via `pipeline.data.get_cifar_splits`). Training uses `noise_ratio=0` (no SVHN noise images).
+- Recipe: `pipeline.train._train_one` (SGD Nesterov, momentum 0.9, lr 0.1, wd 5e-4, cosine over 40 epochs, batch 128, random crop (pad 4, reflect) + flip, cross-entropy).
+- Ensemble seed `s` trains members with seeds `s*100 + i`, i = 0..4 (`DeepEnsemble.member_seeds`). Expected: ensemble seeds 0, 1, 2 (members 0-4, 100-104, 200-204). Prediction = mean of member softmaxes (`pipeline.models._softmax_probs`).
+- Checkpoints `models/noise_testing/deep_ensemble_noise0_seed{s}_m{i}.pt` (git-ignored); main-format results `results/noise_testing/deep_ensemble_noise0_seed{s}.json/.npz`; add-on probabilities `results/noise_testing/de_addon/deep_ensemble_noise0_seed{s}/{m0..m4.npz, labels.npz, meta.json}` (committed so the eval runs without checkpoints).
+- The five midterm checkpoints (seeds 0-4, older training script) are NOT used for final numbers. Their init is bit-identical to main's ensemble seed 0 members; only the batch-shuffle / augmentation RNG plumbing differs. They are used only in the cross-check below.
 
-## Metrics
-- Std everywhere = sample std (ddof=1) over members (single models) or over ensembles (DE). With one ensemble the DE column shows `(n=1)`, no std.
-- ECE: 15 equal-width bins on max-prob, bins (lo, hi]. Adaptive ECE: 15 equal-mass bins (sorted by confidence, `array_split`).
-- NLL clipped at 1e-12. Brier = sum over classes of squared error, averaged over samples (range 0-2).
-- Mutual information = H(mean member prob) - mean member entropy (nats); undefined (n/a) for single models.
-- Overconfidence gap = mean confidence - accuracy (negative = under-confident).
-- Selective prediction: sort by confidence score (MSP; negative entropy; negative MI), stable sort; AURC = mean over all k of the risk (1 - acc) of the top-k most confident; accuracy at 80/90/95% coverage = accuracy of the top ceil(c*n).
+## Conventions (follow main)
+- Std: re-split std (over the 100 random cal/test splits) uses `np.std` ddof=0, as in `pipeline/evaluate.py`; across-seed std (members, ensemble seeds) uses ddof=1, as in `pipeline.evaluate.summarize`. Tables say which is which.
+- Re-splits: pool cal+test, permutation `RandomState(seed*100000 + r)`, randomization draws seeded by `r` only (main's convention; different ensemble seeds therefore share the same draws). The add-on `resplit_eval` reproduces this exactly; `RESULTS.md` -> "Consistency checks" shows the max difference vs main's numbers (0).
+- Single-split conformal: draws seeded with the run (ensemble) seed, cal draws first, then test draws from the same stream (`conformal_fixed.split_conformal`). Members are evaluated with their ensemble's seed.
+- Conformal rule: class y in set iff score(x,y) <= qhat, qhat = ceil((n+1)(1-alpha))/n quantile, alpha 0.1; sets may be empty (fraction reported).
+- "Single ResNet-20" rows = the individual members (15 when all ensembles exist); "DE" = mean ± std over ensemble seeds. With fewer than 3 ensemble seeds the t-test is TODO and the tables show `(n=1)` or n=2 stds.
 
-## Conformal (`src/de_conformal.py`)
-- alpha=0.1; qhat = ceil((n+1)(1-alpha))/n empirical quantile of the calibration true-class scores.
-- Every method uses the same function for calibration and prediction: y in set iff score(x,y) <= qhat. Sets may be empty (fraction reported, no top-1 forced in). This is the corrected layer from `models/deep_ensembles/CONFORMAL_AUDIT.md`; the notebook's original inclusive-crossing APS (coverage 1.0, size 6.3) is NOT used.
-- Non-randomized APS: score = inclusive cumulative mass up to y's rank. Randomized APS: mass strictly above y + U*p_y. RAPS: randomized APS + lam*max(0, rank - k_reg), k_reg=5, lam=0.01 (rank 1-indexed, no tuning of k_reg/lam). Mondrian randomized APS: one qhat per true class.
-- Randomness: U ~ Uniform(0,1), one per image (shared across all classes of that image); seed = re-split index. Test U continues the same RandomState stream after the n_cal calibration draws, exactly as in `conformal_fixed.py` / `pipeline/evaluate.py` (verified identical coverage/size for seed 0 and M=5, single split and 100 re-splits).
-- 100 re-splits: pool cal+test (24k), `RandomState(r).permutation`, first 12k = cal, last 12k = test, r = 0..99. All numbers in the conformal table are averages over the 100 splits (per member/ensemble), then mean ± std over members/ensembles. The "std over splits" column is within-ensemble split variability.
-- Per-class coverage range = min and max over the 10 classes, averaged over splits.
-- "RAPS set size" used for OOD, ablation and significance = RAPS (k_reg=5, lam=0.01) with qhat from the original 12k cal split (seed 0 for cal randomization, a fixed second seed for test/SVHN). Set size as an OOD score has many ties (handled by sklearn / the weighted AUROC).
-- The spec's "rAPS" is read as RAPS (regularized APS) for the OOD/ablation set sizes; "randomized APS" appears separately as `aps_rand`.
+## Add-on definitions
+- Adaptive ECE: 15 equal-mass bins. Mutual information = H(mean member prob) - mean member entropy (n/a for single models). Overconfidence gap = mean confidence - accuracy.
+- Non-randomized APS: inclusive cumulative mass at y's rank. RAPS: randomized APS + 0.01 * max(0, rank - 5) (k_reg=5, lam=0.01, untuned). "RAPS set size" in OOD/ablation/significance uses qhat from the cal split with draw seed 0.
+- OOD: CIFAR-10 test vs SVHN **official test split** (26,032 images, `data_svhn_test/test_32x32.mat`, git-ignored, downloaded by the dumper), CIFAR-10 normalisation. Scores (higher = OOD): -MSP, entropy, MI, RAPS set size. AUROC/AUPR-Out: OOD positive; AUPR-In/FPR@95TPR: ID positive (FPR = fraction of SVHN accepted when 95% of CIFAR test is kept). AUPR depends on prevalence.
+- Selective prediction: stable sort by confidence (MSP, -entropy, -MI); AURC = mean selective risk; accuracy at 80/90/95% coverage.
+- Ablation: pool = all available pipeline members; per M, up to 10 distinct random subsets (`RandomState(0)`; all subsets if fewer; subsets may mix ensemble seeds); error bars = sample std over subsets.
+- DE vs single: delta = ensemble metric - mean over its own 5 members. Paired bootstrap, 10,000 resamples of test images (same resample for ensemble and members; the OOD delta also resamples SVHN), percentile 95% CI, `RandomState(0)`. t-test (`ttest_1samp` of per-ensemble deltas) only with >=3 ensemble seeds. Bootstrap covers test-sampling noise only.
+- Cost: params from the model; train minutes from main's checkpoint history; inference time measured by the dumper (batch 256, includes preprocessing); ensemble = M x single.
+- Failure analysis: first available ensemble seed. Largest sets = RAPS size, ties by lowest confidence. Indices are test-split positions (+ pooled-60k indices).
 
-## OOD
-- ID (CIFAR-10 test, 12000) vs OOD (SVHN test, 26032). Scores (higher = more OOD): -MSP, entropy, MI, RAPS set size.
-- AUROC: OOD positive. AUPR-Out: OOD positive. AUPR-In: ID positive (score negated). FPR@95TPR: ID positive; the FPR is the fraction of SVHN accepted at the threshold keeping 95% of CIFAR test. AUPR is prevalence-dependent (OOD = 68% of the pooled set).
+## Checks that ship with the repo
+- `RESULTS.md` -> Consistency checks: add-on randomized APS re-splits vs `conformal_metrics`, and (when present) the saved main `.json` vs numbers recomputed from the add-on probabilities.
+- `results/de/midterm_equivalence_check.md`: main's `evaluate_conformal` on the midterm checkpoints reproduces Acc/NLL/ECE 0.9028/0.3026/0.0312 (seed 0) and 0.9273/0.2232/0.0164 (M=5) and the midterm randomized APS numbers. Ensemble accuracy is 11127/12000 = 0.92725 (printed 0.9273 at the midterm).
+- `--smoke` outputs live only in `results/de_smoke/` (git-ignored) and carry a SMOKE banner.
 
-## Ensemble-size ablation
-- Pool = seeds 0-9 (only the available ones). For each M, up to 10 distinct random size-M subsets via `RandomState(0).choice` over all C(N,M) combinations (all combinations if <=10). Error bars = sample std across subsets (0 for the single M=N subset). M=1 subsets are single members (MI AUROC n/a).
-
-## DE vs single
-- Delta = metric(ensemble) - mean over its own 5 members of the same metric. Paired bootstrap: 10,000 resamples of test images (the same resample for the ensemble and its members; `RandomState(0)`), percentile 95% CI. The OOD-AUROC delta also resamples the SVHN images (tie-aware weighted AUROC, only entropy-based OOD AUROC is bootstrapped).
-- Paired t-test (`scipy.stats.ttest_1samp` of the per-ensemble deltas vs 0) is run only when >=3 ensembles exist.
-- Bootstrap CIs account for test-set sampling noise only, not seed/training variance.
-
-## Cost
-- Params from `sum(p.numel())` of the hub ResNet-20. Inference time measured in `dump_member_probs.py` (batch 256, includes the numpy preprocessing loader, `num_workers=0`) over test+cal+SVHN; ensemble time = M x single (members run sequentially). Training times: wall-clock from `train_time_seed*.json`; seed 3's 342 min includes ~3.5 h laptop sleep (actual compute ~100 min); seed 0's time is not recorded.
-
-## Failure analysis (ensemble A)
-- Confusion matrix and top-5 off-diagonal pairs from the ensemble argmax. Confident wrong = wrong test predictions sorted by max-prob. Confident SVHN = SVHN images sorted by max-prob (with predicted class). Largest sets = RAPS set size, ties broken by lowest confidence. Highest MI = top MI test images. JSON indices are positions in the 12k test split (and global CIFAR index); figures in `figures/de/failure_*`.
-
-## Other
-- Seeds fixed and logged: split 0; training seed = member id; re-splits 0-99; ablation `RandomState(0)`; bootstrap `RandomState(0)`.
-- The probability dumps are committed (~11 MB for seeds 0-4) so `python src/de_eval.py` works without checkpoints.
-- Environment: Python 3.13, shared `requirements.txt` (numpy 2.5.3, pandas 3.1.1, scikit-learn 1.9.1, matplotlib 3.11.2 added for the DE pipeline). Tables were identical (CSV) between this env and the Python 3.8 env used earlier.
+## Notes for the team
+- main's re-split code seeds the permutation with `seed*100000 + r` but the randomization with `r` alone (shared draws across seeds); followed as is.
+- `models/deep-ensembles-model.ipynb` (midterm notebook, unchanged from main) has commented-out calls to removed midterm scripts and reads `results_shravan/deep_ensembles/`, which is kept as an archive.

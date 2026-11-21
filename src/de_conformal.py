@@ -90,9 +90,9 @@ def set_stats(member, labels, probs):
 
 
 def resplit_eval(cal_probs, cal_labels, test_probs, test_labels, n_splits=100, alpha=0.1,
-                 k_reg=5, lam=0.01, methods=METHODS):
+                 k_reg=5, lam=0.01, methods=METHODS, seed=0):
     """Pool cal+test (24k), re-split 12k/12k with seeds 0..n_splits-1. Split r: permutation from
-    RandomState(r); U from a separate RandomState(r): first n_cal draws for cal, the next for test (identical
+    RandomState(seed*100000 + r) (`seed` = ensemble/run seed, as pipeline/evaluate.py); U from a separate RandomState(r): first n_cal draws for cal, the next for test (identical
     to conformal_fixed.split_conformal(seed=r) and pipeline/evaluate.py). Returns {method: {stat: array(n_splits)}}."""
     P = np.concatenate([cal_probs, test_probs]).astype(np.float64)
     Y = np.concatenate([cal_labels, test_labels])
@@ -102,7 +102,7 @@ def resplit_eval(cal_probs, cal_labels, test_probs, test_labels, n_splits=100, a
     correct = P.argmax(1) == Y
     res = {m: {} for m in methods}
     for r in range(n_splits):
-        rng = np.random.RandomState(r)
+        rng = np.random.RandomState(seed * 100_000 + r)   # pipeline/evaluate.py convention
         perm = rng.permutation(n)
         ci, ti = perm[:n_cal], perm[n_cal:]
         ru = np.random.RandomState(r)

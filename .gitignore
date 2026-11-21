@@ -239,3 +239,4 @@ models/deep_ensembles/*.tmp
 # Noise-testing pipeline outputs
 models/noise_testing/*.pt
 results/noise_testing/*.npz
+results/de_smoke/
