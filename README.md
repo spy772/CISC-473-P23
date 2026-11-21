@@ -31,5 +31,3 @@ pip install
 - Elliott Vince
 - Shravan Agnihotri
 
-Headline numbers use main's functions unchanged (`common.compute_*`, `pipeline.evaluate.conformal_metrics/compare/summarize`).
-`src/de_conformal.py` adds non-randomized APS and RAPS on top. Midterm code/results are archived: `results_shravan/deep_ensembles/README.md`.
