@@ -65,7 +65,7 @@ def train_member(seed, out_dir, epochs, train_ds, val_loader, log_prefix=""):
 
     start_epoch, elapsed_prev = 0, 0.0
     if partial.exists():
-        ck = torch.load(partial, map_location=C.DEVICE)
+        ck = torch.load(partial, map_location=C.DEVICE, weights_only=False)  # own file; holds RNG states (torch>=2.6 defaults to weights_only=True)
         model.load_state_dict(ck["model"]); opt.load_state_dict(ck["opt"])
         sched.load_state_dict(ck["sched"]); set_rng_state(ck["rng"])
         start_epoch, elapsed_prev = ck["epoch"], ck["elapsed"]
