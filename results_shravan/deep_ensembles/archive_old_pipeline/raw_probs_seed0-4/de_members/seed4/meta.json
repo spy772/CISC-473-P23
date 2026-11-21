@@ -1,0 +1,12 @@
+{
+  "seed": 4,
+  "ckpt": "models/deep_ensembles/resnet20_seed4.pt",
+  "train_time_sec": 6276.88135099411,
+  "hardware": "AMD64 Family 23 Model 96 Stepping 1, AuthenticAMD",
+  "device": "cpu",
+  "torch": "2.4.1+cpu",
+  "git_commit": "f187d62c2f55f3c2429226ab7850ab93579515d9",
+  "test_acc": 0.9034166666666666,
+  "inference_sec_per_1000_imgs": 1.5869939245276456,
+  "n_params": 272474
+}

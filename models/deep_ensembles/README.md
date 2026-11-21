@@ -1,3 +1,7 @@
+> **Status: midterm documentation.** The training / evaluation scripts described below (`train_ensemble.py`, `evaluate_ensemble.py`,
+> `conformal_resplit.py`, `make_plots.py`) were removed when Deep Ensembles was moved onto the shared `pipeline/`. `common.py`,
+> `conformal_fixed.py`, `CONFORMAL_AUDIT.md` and `SHARED_FIX_PROPOSAL.md` are still used by `pipeline/`. Current workflow: top-level README.
+
 # Deep Ensembles (Lakshminarayanan et al., 2017)
 
 Five ResNet-20 networks are trained on the same data with identical settings, differing only in random seed (initialization, batch order, augmentation). Member 0 is Edward's baseline checkpoint. At test time the ensemble prediction is the mean of the members' softmax probabilities. Uncertainty comes from averaging. Disagreement among members is also available as mutual information for OOD detection. No adversarial training (omitted on purpose for a fair comparison).

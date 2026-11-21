@@ -225,6 +225,10 @@ __marimo__/
 # Ignore huge data files
 data/cifar-10-python.tar.gz
 data_svhn
+# DE final: raw SVHN test download, training scratch
+data_svhn_test/
+models/deep_ensembles/*.partial.pt
+models/deep_ensembles/*.err
 models/sngp/*.pt
 models/laplace_model/*.pt
 models/mc_model/*.pt
@@ -235,3 +239,4 @@ models/deep_ensembles/*.tmp
 # Noise-testing pipeline outputs
 models/noise_testing/*.pt
 results/noise_testing/*.npz
+results/de_smoke/
