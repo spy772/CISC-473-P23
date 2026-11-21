@@ -74,7 +74,7 @@ def main():
     (C.RESULTS_DIR / "conformal_resplit_table.md").write_text("\n".join(L) + "\n", encoding="utf8")
 
     # corrected counterpart of Edward's baseline_resnet20_results.json conformal block
-    b = json.load(open(C.REPO / "baseline_resnet20_results.json"))
+    b = json.load(open(C.REPO / "models" / "output" / "baseline_resnet20_results.json"))
     rows = json.load(open(C.RESULTS_DIR / "results.json"))["rows"]
     base = next(r for r in rows if r["kind"] == "baseline")
     fixed = dict(original_baseline_metrics=b["baseline_metrics"],

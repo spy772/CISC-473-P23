@@ -196,7 +196,7 @@ def write_tables(rows, meta, RES):
     base = rows[0]
     ens = [r for r in rows if r["kind"] == "ensemble"]
     top = ens[-1] if ens else None
-    ed = json.load(open(C.REPO / "baseline_resnet20_results.json"))
+    ed = json.load(open(C.REPO / "models" / "output" / "baseline_resnet20_results.json"))
     lines = ["# Baseline vs Deep Ensemble", "",
              f"CIFAR-10 test n={meta['n_test']}, calibration n={meta['n_cal']}, alpha={meta['alpha']}. "
              f"OOD = {meta['ood_set']} (subsampled to {meta['ood_n_used']}).", "",

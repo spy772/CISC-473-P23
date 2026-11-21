@@ -229,3 +229,13 @@ data_svhn
 data_svhn_test/
 models/deep_ensembles/*.partial.pt
 models/deep_ensembles/*.err
+models/sngp/*.pt
+models/laplace_model/*.pt
+models/mc_model/*.pt
+# Deep ensemble checkpoints
+models/deep_ensembles/*.pt
+models/deep_ensembles/*.tmp
+
+# Noise-testing pipeline outputs
+models/noise_testing/*.pt
+results/noise_testing/*.npz
