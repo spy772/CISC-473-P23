@@ -206,7 +206,6 @@ def aps_predict_sets(probs, qhat):
 
 
 def shared_split_conformal(cal_probs, cal_labels, test_probs, test_labels, alpha=ALPHA):
-    """Exactly the notebook's cell 14 logic."""
     cal_scores = aps_scores(cal_probs, cal_labels)
     n = len(cal_scores)
     q_level = min(np.ceil((n + 1) * (1 - alpha)) / n, 1.0)
