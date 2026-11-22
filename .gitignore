@@ -240,3 +240,8 @@ models/deep_ensembles/*.tmp
 models/noise_testing/*.pt
 results/noise_testing/*.npz
 results/de_smoke/
+
+# Kaggle download bundles (unzipped copies and archives)
+de_gpu_ensemble_seeds_*/
+*.zip
+results/noise_testing/de_addon/**/*.npz
