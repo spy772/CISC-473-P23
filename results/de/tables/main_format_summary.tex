@@ -1,0 +1,13 @@
+\begin{table}
+\centering
+\caption{Main-format summary (pipeline.evaluate.summarize: mean $\pm$ std across seeds, ddof=1)}
+\label{tab:de_main_format_summary}
+\begin{tabular}{lrrrrrrrrrrrr}
+\toprule
+               model &  noise\_ratio &  n\_seeds &        accuracy &             nll &             ece &           brier &    aps\_coverage &    aps\_set\_size &  aps\_frac\_empty &    lac\_coverage &    lac\_set\_size & mondrian\_min\_class\_cov \\
+\midrule
+deep\_ensemble\_member &            0 &       15 & 0.9050 $\pm$ 0.0024 & 0.2946 $\pm$ 0.0079 & 0.0291 $\pm$ 0.0015 & 0.1404 $\pm$ 0.0036 & 0.8988 $\pm$ 0.0025 & 1.1754 $\pm$ 0.0062 & 0.0573 $\pm$ 0.0016 & 0.9027 $\pm$ 0.0035 & 0.9909 $\pm$ 0.0038 &        0.8744 $\pm$ 0.0098 \\
+       deep\_ensemble &            0 &        3 & 0.9274 $\pm$ 0.0009 & 0.2215 $\pm$ 0.0021 & 0.0164 $\pm$ 0.0015 & 0.1093 $\pm$ 0.0013 & 0.8963 $\pm$ 0.0031 & 1.1736 $\pm$ 0.0037 & 0.0756 $\pm$ 0.0026 & 0.9031 $\pm$ 0.0048 & 0.9506 $\pm$ 0.0061 &        0.8728 $\pm$ 0.0075 \\
+\bottomrule
+\end{tabular}
+\end{table}

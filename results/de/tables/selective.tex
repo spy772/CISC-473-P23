@@ -1,0 +1,23 @@
+\begin{table}
+\centering
+\caption{Selective prediction (accuracy at coverage 80/90/95%; AURC = mean selective risk, lower is better)}
+\label{tab:de_selective}
+\begin{tabular}{lrrrrrr}
+\toprule
+  score & metric & Single (mean $\pm$ std, 15 members, ddof=1) & DE M=5 (mean $\pm$ std, 3 ens. seeds, ddof=1) & Ens seed 0 & Ens seed 1 & Ens seed 2 \\
+\midrule
+    msp &   aurc &                         0.0134 $\pm$ 0.0006 &                           0.0084 $\pm$ 0.0001 &     0.0083 &     0.0086 &     0.0084 \\
+    msp & acc@80 &                         0.9765 $\pm$ 0.0016 &                           0.9875 $\pm$ 0.0005 &     0.9879 &     0.9877 &     0.9870 \\
+    msp & acc@90 &                         0.9499 $\pm$ 0.0026 &                           0.9671 $\pm$ 0.0007 &     0.9680 &     0.9667 &     0.9668 \\
+    msp & acc@95 &                         0.9301 $\pm$ 0.0028 &                           0.9501 $\pm$ 0.0015 &     0.9512 &     0.9484 &     0.9505 \\
+entropy &   aurc &                         0.0136 $\pm$ 0.0006 &                           0.0089 $\pm$ 0.0001 &     0.0087 &     0.0090 &     0.0089 \\
+entropy & acc@80 &                         0.9765 $\pm$ 0.0014 &                           0.9872 $\pm$ 0.0007 &     0.9878 &     0.9874 &     0.9865 \\
+entropy & acc@90 &                         0.9487 $\pm$ 0.0025 &                           0.9635 $\pm$ 0.0013 &     0.9648 &     0.9634 &     0.9621 \\
+entropy & acc@95 &                         0.9293 $\pm$ 0.0028 &                           0.9482 $\pm$ 0.0017 &     0.9501 &     0.9467 &     0.9480 \\
+     mi &   aurc &                                     n/a &                           0.0107 $\pm$ 0.0002 &     0.0105 &     0.0107 &     0.0109 \\
+     mi & acc@80 &                                     n/a &                           0.9807 $\pm$ 0.0018 &     0.9824 &     0.9807 &     0.9789 \\
+     mi & acc@90 &                                     n/a &                           0.9566 $\pm$ 0.0019 &     0.9588 &     0.9556 &     0.9554 \\
+     mi & acc@95 &                                     n/a &                           0.9425 $\pm$ 0.0018 &     0.9446 &     0.9413 &     0.9417 \\
+\bottomrule
+\end{tabular}
+\end{table}

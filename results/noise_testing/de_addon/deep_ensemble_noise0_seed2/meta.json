@@ -1,0 +1,59 @@
+{
+  "tag": "deep_ensemble_noise0_seed2",
+  "ensemble_seed": 2,
+  "smoke": false,
+  "hardware": "Tesla T4",
+  "device": "cuda",
+  "torch": "2.11.0+cu130",
+  "git_commit": "17c1ff03d87ebe32ce1b2ff29feb5a073ec0d35f",
+  "n_test": 12000,
+  "n_cal": 12000,
+  "n_ood": 26032,
+  "members": [
+    {
+      "member": 0,
+      "member_seed": 200,
+      "ckpt": "deep_ensemble_noise0_seed2_m0.pt",
+      "train_minutes": 9.556242875258128,
+      "test_acc": 0.905,
+      "inference_sec_per_1000_imgs": 0.09846001110558773,
+      "n_params": 272474
+    },
+    {
+      "member": 1,
+      "member_seed": 201,
+      "ckpt": "deep_ensemble_noise0_seed2_m1.pt",
+      "train_minutes": 9.488458653291067,
+      "test_acc": 0.90875,
+      "inference_sec_per_1000_imgs": 0.09730224758815491,
+      "n_params": 272474
+    },
+    {
+      "member": 2,
+      "member_seed": 202,
+      "ckpt": "deep_ensemble_noise0_seed2_m2.pt",
+      "train_minutes": 9.498887046178181,
+      "test_acc": 0.906,
+      "inference_sec_per_1000_imgs": 0.09732937656502622,
+      "n_params": 272474
+    },
+    {
+      "member": 3,
+      "member_seed": 203,
+      "ckpt": "deep_ensemble_noise0_seed2_m3.pt",
+      "train_minutes": 9.520783412456513,
+      "test_acc": 0.905,
+      "inference_sec_per_1000_imgs": 0.09771930378467693,
+      "n_params": 272474
+    },
+    {
+      "member": 4,
+      "member_seed": 204,
+      "ckpt": "deep_ensemble_noise0_seed2_m4.pt",
+      "train_minutes": 9.510154175758363,
+      "test_acc": 0.9031666666666667,
+      "inference_sec_per_1000_imgs": 0.09769860322688158,
+      "n_params": 272474
+    }
+  ]
+}

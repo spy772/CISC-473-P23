@@ -1,0 +1,43 @@
+\begin{table}
+\centering
+\caption{Conformal add-ons: non-randomized APS and RAPS plus richer stats, mean over 100 re-splits}
+\label{tab:de_conformal_extras}
+\begin{tabular}{lrrrrrrr}
+\toprule
+           method &                       stat & Single (mean $\pm$ std, 15 members, ddof=1) & DE M=5 (mean $\pm$ std, 3 ens. seeds, ddof=1) & Ens seed 0 & Ens seed 1 & Ens seed 2 & First ens. seed: std over splits (ddof=0) \\
+\midrule
+              aps &                   coverage &                         0.9003 $\pm$ 0.0004 &                           0.8998 $\pm$ 0.0004 &     0.9003 &     0.8995 &     0.8997 &                                    0.0042 \\
+              aps &               avg set size &                         5.4122 $\pm$ 0.0714 &                           5.3019 $\pm$ 0.0175 &     5.2817 &     5.3116 &     5.3124 &                                    0.0528 \\
+              aps &            median set size &                         6.0060 $\pm$ 0.0130 &                           6.0000 $\pm$ 0.0000 &     6.0000 &     6.0000 &     6.0000 &                                    0.0000 \\
+              aps &          per-class cov min &                         0.7997 $\pm$ 0.0225 &                           0.7776 $\pm$ 0.0091 &     0.7729 &     0.7880 &     0.7718 &                                    0.0104 \\
+              aps &          per-class cov max &                         0.9810 $\pm$ 0.0045 &                           0.9842 $\pm$ 0.0024 &     0.9869 &     0.9830 &     0.9826 &                                    0.0025 \\
+              aps &   set size (correct preds) &                         5.0892 $\pm$ 0.0754 &                           5.0563 $\pm$ 0.0200 &     5.0334 &     5.0647 &     5.0708 &                                    0.0541 \\
+              aps & set size (incorrect preds) &                         8.4498 $\pm$ 0.0615 &                           8.3929 $\pm$ 0.0221 &     8.3828 &     8.4182 &     8.3776 &                                    0.0361 \\
+              aps &            frac empty sets &                         0.0993 $\pm$ 0.0005 &                           0.0999 $\pm$ 0.0005 &     0.0994 &     0.1003 &     0.1002 &                                    0.0042 \\
+         aps\_rand &                   coverage &                         0.8998 $\pm$ 0.0003 &                           0.8994 $\pm$ 0.0002 &     0.8994 &     0.8992 &     0.8996 &                                    0.0038 \\
+         aps\_rand &               avg set size &                         1.1857 $\pm$ 0.0055 &                           1.1916 $\pm$ 0.0021 &     1.1898 &     1.1939 &     1.1912 &                                    0.0094 \\
+         aps\_rand &            median set size &                         1.0000 $\pm$ 0.0000 &                           1.0000 $\pm$ 0.0000 &     1.0000 &     1.0000 &     1.0000 &                                    0.0000 \\
+         aps\_rand &          per-class cov min &                         0.8723 $\pm$ 0.0020 &                           0.8827 $\pm$ 0.0007 &     0.8824 &     0.8822 &     0.8835 &                                    0.0076 \\
+         aps\_rand &          per-class cov max &                         0.9217 $\pm$ 0.0011 &                           0.9152 $\pm$ 0.0003 &     0.9149 &     0.9152 &     0.9155 &                                    0.0057 \\
+         aps\_rand &   set size (correct preds) &                         1.0837 $\pm$ 0.0046 &                           1.1036 $\pm$ 0.0037 &     1.0993 &     1.1056 &     1.1058 &                                    0.0082 \\
+         aps\_rand & set size (incorrect preds) &                         2.1448 $\pm$ 0.0178 &                           2.2999 $\pm$ 0.0235 &     2.3202 &     2.3054 &     2.2742 &                                    0.0381 \\
+         aps\_rand &            frac empty sets &                         0.0564 $\pm$ 0.0005 &                           0.0735 $\pm$ 0.0004 &     0.0735 &     0.0739 &     0.0731 &                                    0.0031 \\
+             raps &                   coverage &                         0.8998 $\pm$ 0.0003 &                           0.8994 $\pm$ 0.0002 &     0.8994 &     0.8992 &     0.8996 &                                    0.0038 \\
+             raps &               avg set size &                         1.1852 $\pm$ 0.0055 &                           1.1914 $\pm$ 0.0021 &     1.1895 &     1.1937 &     1.1910 &                                    0.0093 \\
+             raps &            median set size &                         1.0000 $\pm$ 0.0000 &                           1.0000 $\pm$ 0.0000 &     1.0000 &     1.0000 &     1.0000 &                                    0.0000 \\
+             raps &          per-class cov min &                         0.8723 $\pm$ 0.0020 &                           0.8827 $\pm$ 0.0007 &     0.8824 &     0.8822 &     0.8835 &                                    0.0076 \\
+             raps &          per-class cov max &                         0.9216 $\pm$ 0.0011 &                           0.9152 $\pm$ 0.0004 &     0.9148 &     0.9153 &     0.9155 &                                    0.0057 \\
+             raps &   set size (correct preds) &                         1.0836 $\pm$ 0.0045 &                           1.1035 $\pm$ 0.0037 &     1.0992 &     1.1056 &     1.1058 &                                    0.0081 \\
+             raps & set size (incorrect preds) &                         2.1412 $\pm$ 0.0178 &                           2.2978 $\pm$ 0.0231 &     2.3177 &     2.3033 &     2.2725 &                                    0.0377 \\
+             raps &            frac empty sets &                         0.0564 $\pm$ 0.0005 &                           0.0735 $\pm$ 0.0004 &     0.0735 &     0.0739 &     0.0731 &                                    0.0031 \\
+mondrian\_aps\_rand &                   coverage &                         0.9001 $\pm$ 0.0003 &                           0.8998 $\pm$ 0.0003 &     0.8997 &     0.8995 &     0.9001 &                                    0.0037 \\
+mondrian\_aps\_rand &               avg set size &                         1.1989 $\pm$ 0.0062 &                           1.1948 $\pm$ 0.0012 &     1.1935 &     1.1958 &     1.1951 &                                    0.0094 \\
+mondrian\_aps\_rand &            median set size &                         1.0000 $\pm$ 0.0000 &                           1.0000 $\pm$ 0.0000 &     1.0000 &     1.0000 &     1.0000 &                                    0.0000 \\
+mondrian\_aps\_rand &          per-class cov min &                         0.8804 $\pm$ 0.0008 &                           0.8801 $\pm$ 0.0012 &     0.8794 &     0.8794 &     0.8815 &                                    0.0081 \\
+mondrian\_aps\_rand &          per-class cov max &                         0.9188 $\pm$ 0.0006 &                           0.9184 $\pm$ 0.0006 &     0.9180 &     0.9180 &     0.9191 &                                    0.0059 \\
+mondrian\_aps\_rand &   set size (correct preds) &                         1.0928 $\pm$ 0.0052 &                           1.1062 $\pm$ 0.0035 &     1.1022 &     1.1074 &     1.1089 &                                    0.0083 \\
+mondrian\_aps\_rand & set size (incorrect preds) &                         2.1974 $\pm$ 0.0193 &                           2.3102 $\pm$ 0.0220 &     2.3328 &     2.3090 &     2.2889 &                                    0.0394 \\
+mondrian\_aps\_rand &            frac empty sets &                         0.0581 $\pm$ 0.0006 &                           0.0733 $\pm$ 0.0004 &     0.0734 &     0.0736 &     0.0729 &                                    0.0030 \\
+\bottomrule
+\end{tabular}
+\end{table}
